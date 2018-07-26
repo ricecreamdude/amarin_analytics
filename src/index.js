@@ -7,7 +7,9 @@ const email = {
 }
 
 const purchase = {
-  trackPurchase: function() {}
+  trackPurchase: function() {
+    TrackModule.purchase(products[0])
+  }
 }
 
 const subscribe = {
@@ -36,7 +38,6 @@ const products = [
 
 class Activity {
   constructor(action, data) {
-    // this.user = user
     this.action = action
     this.data = data
     this.cookie = null
@@ -50,8 +51,6 @@ const TrackerModule = {
   addActivity: function(action, data) {
     let act = new Activity(action, data)
     this.history.push(act)
-    console.log('History Array', this.history)
-    console.log('Tracker data', data)
   },
   subscribe: function(email) {
     let data = {
@@ -59,23 +58,18 @@ const TrackerModule = {
     }
     this.addActivity('subscribe', data)
   },
-  interest: function() {
-    let data = {}
-
-    this.addActivity('interest', data)
-  },
   purchase: function(item) {
-    let data = {}
-    let price = item.price
-    let quantity = item.quantity
+    let data = item
+    let purchaseData = {
+      name: data.name,
+      price: data.price,
+      quantity: data.quantity
+    }
 
-    this.addActivity('purchase', data)
+    this.addActivity('purchase', purchaseData)
   }
 }
 // ================================================ //
 
 document.getElementById('emailBtn').addEventListener('click', email.addSubscriber)
-
-// document.getElementById('interest').addEventListener('click', )
-//
 // document.getElementById('purchase').addEventListener('click', )
